@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Citrus Remote Viewer
+NoDisplay=true
+MimeType=x-scheme-handler/citrusremoteviewer;
+TryExec=citrusremoteviewer
+Exec=citrusremoteviewer %u
+Icon=citrusremoteviewer
+Terminal=false
+Type=Application
+StartupNotify=false
+StartupWMClass=citrusremoteviewer
