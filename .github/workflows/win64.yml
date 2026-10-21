@@ -1,0 +1,18 @@
+name: Build Windows x64 only
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload-tag:
+        description: "Tag to upload artifacts/release under"
+        type: string
+        default: "nightly"
+
+jobs:
+  run-win64-build:
+    uses: ./.github/workflows/flutter-build.yml
+    secrets: inherit
+    with:
+      upload-artifact: true
+      upload-tag: ${{ inputs.upload-tag }}
+      windows-x64-only: true
