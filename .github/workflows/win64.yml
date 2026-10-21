@@ -10,6 +10,8 @@ on:
 
 jobs:
   run-win64-build:
+    permissions:
+      contents: write
     uses: ./.github/workflows/flutter-build.yml
     secrets: inherit
     with:
