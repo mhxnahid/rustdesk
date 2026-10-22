@@ -17,14 +17,20 @@ function Update-SessionPath {
         [Environment]::GetEnvironmentVariable('Path', 'User')
 }
 
-function Install-WingetPackage([string]$Id, [string]$Command) {
-    if (Get-Command $Command -ErrorAction SilentlyContinue) {
+function Install-WingetPackage([string]$Id, [scriptblock]$IsInstalled) {
+    if (& $IsInstalled) {
         Write-Host "  $Id already installed"
         return
     }
     winget install --id $Id -e --silent --accept-package-agreements --accept-source-agreements
-    Assert-LastExit "winget install $Id"
+    # -1978335189: no applicable upgrade, -1978335135: already installed.
+    if ($LASTEXITCODE -notin @(0, -1978335189, -1978335135)) {
+        throw "winget install $Id failed with exit code $LASTEXITCODE"
+    }
     Update-SessionPath
+    if (-not (& $IsInstalled)) {
+        throw "winget reports $Id as installed, but it was not found (maybe installed for another user). Run 'winget uninstall --id $Id -e', then re-run setup.ps1."
+    }
 }
 
 function Install-Flutter([string]$Version, [string]$Root) {
@@ -57,8 +63,8 @@ Set-ItemProperty -Path $devKey -Name AllowDevelopmentWithoutDevLicense -Value 1 
 Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Value 1 -Type DWord
 
 Write-Step 'Git and Python'
-Install-WingetPackage 'Git.Git' 'git'
-Install-WingetPackage 'Python.Python.3.12' 'py'
+Install-WingetPackage 'Git.Git' { Get-Command git -ErrorAction SilentlyContinue }
+Install-WingetPackage 'Python.Python.3.12' { Get-PythonExe }
 git config --global core.longpaths true
 
 Write-Step 'Visual Studio 2022 Build Tools (C++ workload)'
@@ -90,7 +96,7 @@ if ($haveLlvm) {
 }
 
 Write-Step "Rust $RustVersion and bridge codegen tools"
-Install-WingetPackage 'Rustlang.Rustup' 'rustup'
+Install-WingetPackage 'Rustlang.Rustup' { Get-Command rustup -ErrorAction SilentlyContinue }
 rustup toolchain install $RustVersion --profile minimal -c rustfmt
 Assert-LastExit 'rustup toolchain install'
 $cargoBin = Join-Path $env:USERPROFILE '.cargo\bin'

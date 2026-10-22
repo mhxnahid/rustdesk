@@ -67,6 +67,17 @@ function New-TempDir {
     return $dir
 }
 
+# The py launcher is optional in the python.org installer, and "python" can be the
+# Microsoft Store stub, so look for a real python.exe.
+function Get-PythonExe {
+    $candidates = @(Get-Command python.exe -All -ErrorAction SilentlyContinue |
+        Where-Object { $_.Source -notlike '*\WindowsApps\*' } | ForEach-Object { $_.Source })
+    $candidates += @(Get-ChildItem "$env:LOCALAPPDATA\Programs\Python\Python3*\python.exe", "$env:ProgramFiles\Python3*\python.exe" -ErrorAction SilentlyContinue |
+        Sort-Object FullName -Descending | ForEach-Object { $_.FullName })
+    if ($candidates.Count -eq 0) { return $null }
+    return $candidates[0]
+}
+
 function Get-FfiHash {
     return (Get-FileHash (Join-Path $RepoRoot 'src\flutter_ffi.rs') -Algorithm SHA256).Hash
 }

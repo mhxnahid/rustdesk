@@ -99,7 +99,9 @@ try {
     }
 
     Write-Step "Building ($(if ($Fast) { 'fast' } else { 'release' }))"
-    py -3 build.py --portable --flutter --skip-portable-pack --hwcodec --vram
+    $python = Get-PythonExe
+    if (-not $python) { throw 'Python not found. Run setup.ps1 first.' }
+    & $python build.py --portable --flutter --skip-portable-pack --hwcodec --vram
     Assert-LastExit 'build.py'
 
     Write-Step "Collecting output in $OutDir"
