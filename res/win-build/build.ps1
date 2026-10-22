@@ -8,6 +8,7 @@ CI job. Run setup.ps1 once first.
   -ForceBridge  Regenerate the flutter_rust_bridge files even if src/flutter_ffi.rs is unchanged.
   -NoDrivers    Skip bundling the virtual display and printer drivers.
   -Zip          Also write <OutDir>.zip.
+  -SingleExe    Also pack the folder into one self-extracting exe, <OutDir>.exe (the file to ship).
 #>
 param(
     [switch]$Fast,
@@ -15,6 +16,7 @@ param(
     [switch]$ForceBridge,
     [switch]$NoDrivers,
     [switch]$Zip,
+    [switch]$SingleExe,
     [string]$OutDir
 )
 $ErrorActionPreference = 'Stop'
@@ -61,6 +63,20 @@ function Add-Drivers([string]$Dest) {
         Remove-Item $driverZip, $adapterZip, $sums -ErrorAction SilentlyContinue
         Write-Warning "Skipping the printer driver: $_"
     }
+}
+
+function New-SingleExe([string]$Folder, [string]$Python) {
+    Write-Step 'Packing a single self-extracting exe'
+    $portable = Join-Path $RepoRoot 'libs\portable'
+    & $Python -m pip install --quiet -r (Join-Path $portable 'requirements.txt')
+    Assert-LastExit 'pip install'
+    Set-Location $portable
+    & $Python .\generate.py -f $Folder -o . -e (Join-Path $Folder 'citrusremoteviewer.exe')
+    Assert-LastExit 'generate.py'
+    Set-Location $RepoRoot
+    $exe = "$Folder.exe"
+    Move-Item -Force (Join-Path $RepoRoot 'target\release\rustdesk-portable-packer.exe') $exe
+    Write-Host "  exe: $exe"
 }
 
 $started = Get-Date
@@ -115,6 +131,8 @@ try {
     New-Item -ItemType Directory -Force $OutDir | Out-Null
     Copy-Item (Join-Path $release '*') $OutDir -Recurse
     if (-not $NoDrivers) { Add-Drivers $OutDir }
+
+    if ($SingleExe) { New-SingleExe $OutDir $python }
 
     if ($Zip) {
         $zipPath = "$OutDir.zip"

@@ -32,8 +32,13 @@ powershell -ExecutionPolicy Bypass -File res\win-build\build.ps1          # rele
 powershell -ExecutionPolicy Bypass -File res\win-build\build.ps1 -Fast    # quick test build
 ```
 
-The portable client ends up in `target\dist\CitrusRemoteViewer-win64\`; run
+The client folder ends up in `target\dist\CitrusRemoteViewer-win64\`; run
 `citrusremoteviewer.exe` from there. Add `-Zip` for a zip next to it.
+
+To ship, add `-SingleExe`: it packs that folder into one self-extracting
+`target\dist\CitrusRemoteViewer-win64.exe`. Running it unpacks the app to a temp
+directory and starts it; users can install from inside the app. It is unsigned, so
+SmartScreen will warn until it is code-signed.
 
 The first build compiles the vcpkg dependencies (ffmpeg, aom, libvpx, ...) and takes
 hours. After that, a release rebuild takes 15-25 minutes and `-Fast` a few minutes.
@@ -43,5 +48,5 @@ The flutter_rust_bridge files are gitignored; `build.ps1` regenerates them throu
 
 ## Differences from CI
 
-- No code signing, MSI or single-file installer (`--skip-portable-pack`).
+- No code signing or MSI.
 - RustDeskTempTopMostWindow (used by one privacy-mode implementation) is not built.
