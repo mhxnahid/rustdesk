@@ -6,6 +6,9 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'common.ps1')
 
 $flutterDir = Join-Path $RepoRoot 'flutter'
+if ((Get-Content (Join-Path $flutterDir 'pubspec.yaml') -Raw).Contains('extended_text: 13.0.0')) {
+    throw 'flutter\pubspec.yaml still has the extended_text 13 downgrade from an interrupted bridge run. Restore it (git checkout -- flutter/pubspec.yaml flutter/pubspec.lock) and re-run.'
+}
 $backup = New-TempDir
 Copy-Item (Join-Path $flutterDir 'pubspec.yaml'), (Join-Path $flutterDir 'pubspec.lock') $backup
 $origLocation = Get-Location
