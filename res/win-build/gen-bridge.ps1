@@ -31,6 +31,11 @@ try {
 } finally {
     Copy-Item (Join-Path $backup '*') $flutterDir -Force
     Remove-Item $backup -Recurse -Force
+    # The copies keep their old timestamps, which would make the next flutter command skip
+    # `pub get` and keep the downgraded extended_text resolved above.
+    foreach ($name in @('pubspec.yaml', 'pubspec.lock')) {
+        (Get-Item (Join-Path $flutterDir $name)).LastWriteTime = Get-Date
+    }
     Set-Location $origLocation
     $env:Path = $origPath
 }
