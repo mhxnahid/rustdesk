@@ -91,4 +91,6 @@ function Use-BuildEnv([string]$Flutter = $FlutterRoot) {
     $env:VCPKG_ROOT = $VcpkgRoot
     $env:LIBCLANG_PATH = $LlvmBin
     $env:RUSTUP_TOOLCHAIN = $RustVersion
+    # Cargo's built-in git is slow on Windows, and there are many large git dependencies.
+    $env:CARGO_NET_GIT_FETCH_WITH_CLI = 'true'
 }

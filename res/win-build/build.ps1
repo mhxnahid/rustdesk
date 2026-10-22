@@ -82,6 +82,11 @@ try {
         Assert-LastExit 'vcpkg install'
     }
 
+    # Fetch up front with visible progress; the bridge codegen hides cargo's output.
+    Write-Step 'Fetching Rust dependencies'
+    cargo fetch --locked --target x86_64-pc-windows-msvc
+    Assert-LastExit 'cargo fetch'
+
     $missing = @($BridgeFiles | Where-Object { -not (Test-Path (Join-Path $RepoRoot $_)) })
     $stale = (-not (Test-Path $BridgeStamp)) -or ((Get-Content $BridgeStamp -Raw) -ne (Get-FfiHash))
     if ($ForceBridge -or $missing.Count -gt 0 -or $stale) {

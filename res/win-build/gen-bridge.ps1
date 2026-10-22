@@ -23,6 +23,7 @@ try {
     Assert-LastExit 'flutter pub get'
 
     Set-Location $RepoRoot
+    Write-Host '  running cargo expand: compiles the crate without printing anything, slow the first time'
     flutter_rust_bridge_codegen --rust-input .\src\flutter_ffi.rs --dart-output .\flutter\lib\generated_bridge.dart --c-output .\flutter\macos\Runner\bridge_generated.h
     Assert-LastExit 'flutter_rust_bridge_codegen'
 
