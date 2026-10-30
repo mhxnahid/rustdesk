@@ -1,12 +1,12 @@
 {
-  "id": "com.rustdesk.RustDesk",
+  "id": "com.mxnwire.CitrusViewer",
   "runtime": "org.freedesktop.Platform",
   "runtime-version": "24.08",
   "sdk": "org.freedesktop.Sdk",
-  "command": "citrusremoteviewer",
+  "command": "citrusviewer",
   "cleanup": ["/include", "/lib/pkgconfig", "/share/gtk-doc"],
-  "rename-desktop-file": "citrusremoteviewer.desktop",
-  "rename-icon": "citrusremoteviewer",
+  "rename-desktop-file": "citrusviewer.desktop",
+  "rename-icon": "citrusviewer",
   "modules": [
     "shared-modules/libappindicator/libappindicator-gtk3-12.10.json",
     {
@@ -22,21 +22,21 @@
       ]
     },
     {
-      "name": "citrusremoteviewer",
+      "name": "citrusviewer",
       "buildsystem": "simple",
       "build-commands": [
-        "bsdtar -Oxf citrusremoteviewer.deb data.tar.xz | bsdtar -xf -",
+        "bsdtar -Oxf citrusviewer.deb data.tar.xz | bsdtar -xf -",
         "cp -r usr/* /app/",
-        "mkdir -p /app/bin && ln -s /app/share/citrusremoteviewer/citrusremoteviewer /app/bin/citrusremoteviewer"
+        "mkdir -p /app/bin && ln -s /app/share/citrusviewer/citrusviewer /app/bin/citrusviewer"
       ],
       "sources": [
         {
           "type": "file",
-          "path": "citrusremoteviewer.deb"
+          "path": "citrusviewer.deb"
         },
         {
           "type": "file",
-          "path": "com.rustdesk.RustDesk.metainfo.xml"
+          "path": "com.mxnwire.CitrusViewer.metainfo.xml"
         }
       ]
     }

@@ -1,6 +1,6 @@
 #Requires -RunAsAdministrator
 <#
-One-time setup of a Windows 10/11 x64 machine for building the Citrus Remote Viewer client.
+One-time setup of a Windows 10/11 x64 machine for building the Citrus Viewer client.
 
 Run from an elevated PowerShell while signed in as the user who will run build.ps1
 (Rust, Python and the pub cache are installed per user). Safe to re-run: each step

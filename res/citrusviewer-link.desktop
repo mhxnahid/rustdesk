@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Citrus Viewer
+NoDisplay=true
+MimeType=x-scheme-handler/citrusviewer;
+TryExec=citrusviewer
+Exec=citrusviewer %u
+Icon=citrusviewer
+Terminal=false
+Type=Application
+StartupNotify=false
+StartupWMClass=citrusviewer

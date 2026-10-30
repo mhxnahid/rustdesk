@@ -32,11 +32,11 @@ powershell -ExecutionPolicy Bypass -File res\win-build\build.ps1          # rele
 powershell -ExecutionPolicy Bypass -File res\win-build\build.ps1 -Fast    # quick test build
 ```
 
-The client folder ends up in `target\dist\CitrusRemoteViewer-win64\`; run
-`citrusremoteviewer.exe` from there. Add `-Zip` for a zip next to it.
+The client folder ends up in `target\dist\CitrusViewer-win64\`; run
+`citrusviewer.exe` from there. Add `-Zip` for a zip next to it.
 
 To ship, add `-SingleExe`: it packs that folder into one self-extracting
-`target\dist\CitrusRemoteViewer-win64.exe`. Running it unpacks the app to a temp
+`target\dist\CitrusViewer-win64.exe`. Running it unpacks the app to a temp
 directory and starts it; users can install from inside the app. It is unsigned, so
 SmartScreen will warn until it is code-signed.
 

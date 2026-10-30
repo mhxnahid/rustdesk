@@ -1,17 +1,17 @@
 [Unit]
-Description=Citrus Remote Viewer
+Description=Citrus Viewer
 Requires=network.target
 After=systemd-user-sessions.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/citrusremoteviewer --service
+ExecStart=/usr/bin/citrusviewer --service
 # kill --tray and --server both
-ExecStop=pkill -f "citrusremoteviewer --"
+ExecStop=pkill -f "citrusviewer --"
 # below two lines do not work, have to use above one line
-#ExecStop=pkill -f "citrusremoteviewer --tray"
-#ExecStop=pkill -f "citrusremoteviewer --server"
-PIDFile=/run/citrusremoteviewer.pid
+#ExecStop=pkill -f "citrusviewer --tray"
+#ExecStop=pkill -f "citrusviewer --server"
+PIDFile=/run/citrusviewer.pid
 KillMode=mixed
 TimeoutStopSec=30
 User=root

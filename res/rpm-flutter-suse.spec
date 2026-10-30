@@ -1,4 +1,4 @@
-Name:       citrusremoteviewer
+Name:       citrusviewer
 Version:    1.5.1
 Release:    0
 Summary:    RPM package
@@ -24,21 +24,21 @@ The best open-source remote desktop client software, written in Rust.
 
 %install
 
-mkdir -p "%{buildroot}/usr/share/citrusremoteviewer" && cp -r ${HBB}/flutter/build/linux/x64/release/bundle/* -t "%{buildroot}/usr/share/citrusremoteviewer"
+mkdir -p "%{buildroot}/usr/share/citrusviewer" && cp -r ${HBB}/flutter/build/linux/x64/release/bundle/* -t "%{buildroot}/usr/share/citrusviewer"
 mkdir -p "%{buildroot}/usr/bin"
-install -Dm 644 $HBB/res/citrusremoteviewer.service -t "%{buildroot}/usr/share/citrusremoteviewer/files"
-install -Dm 644 $HBB/res/citrusremoteviewer.desktop -t "%{buildroot}/usr/share/citrusremoteviewer/files"
-install -Dm 644 $HBB/res/citrusremoteviewer-link.desktop -t "%{buildroot}/usr/share/citrusremoteviewer/files"
-install -Dm 644 $HBB/res/128x128@2x.png "%{buildroot}/usr/share/icons/hicolor/256x256/apps/citrusremoteviewer.png"
-install -Dm 644 $HBB/res/scalable.svg "%{buildroot}/usr/share/icons/hicolor/scalable/apps/citrusremoteviewer.svg"
+install -Dm 644 $HBB/res/citrusviewer.service -t "%{buildroot}/usr/share/citrusviewer/files"
+install -Dm 644 $HBB/res/citrusviewer.desktop -t "%{buildroot}/usr/share/citrusviewer/files"
+install -Dm 644 $HBB/res/citrusviewer-link.desktop -t "%{buildroot}/usr/share/citrusviewer/files"
+install -Dm 644 $HBB/res/128x128@2x.png "%{buildroot}/usr/share/icons/hicolor/256x256/apps/citrusviewer.png"
+install -Dm 644 $HBB/res/scalable.svg "%{buildroot}/usr/share/icons/hicolor/scalable/apps/citrusviewer.svg"
 
 %files
-/usr/share/citrusremoteviewer/*
-/usr/share/citrusremoteviewer/files/citrusremoteviewer.service
-/usr/share/icons/hicolor/256x256/apps/citrusremoteviewer.png
-/usr/share/icons/hicolor/scalable/apps/citrusremoteviewer.svg
-/usr/share/citrusremoteviewer/files/citrusremoteviewer.desktop
-/usr/share/citrusremoteviewer/files/citrusremoteviewer-link.desktop
+/usr/share/citrusviewer/*
+/usr/share/citrusviewer/files/citrusviewer.service
+/usr/share/icons/hicolor/256x256/apps/citrusviewer.png
+/usr/share/icons/hicolor/scalable/apps/citrusviewer.svg
+/usr/share/citrusviewer/files/citrusviewer.desktop
+/usr/share/citrusviewer/files/citrusviewer-link.desktop
 
 %changelog
 # let's skip this for now
@@ -51,27 +51,27 @@ case "$1" in
   ;;
   2)
     # for upgrade
-    systemctl stop citrusremoteviewer || true
+    systemctl stop citrusviewer || true
   ;;
 esac
 
 %post
-cp /usr/share/citrusremoteviewer/files/citrusremoteviewer.service /etc/systemd/system/citrusremoteviewer.service
-cp /usr/share/citrusremoteviewer/files/citrusremoteviewer.desktop /usr/share/applications/
-cp /usr/share/citrusremoteviewer/files/citrusremoteviewer-link.desktop /usr/share/applications/
-ln -sf /usr/share/citrusremoteviewer/citrusremoteviewer /usr/bin/citrusremoteviewer
+cp /usr/share/citrusviewer/files/citrusviewer.service /etc/systemd/system/citrusviewer.service
+cp /usr/share/citrusviewer/files/citrusviewer.desktop /usr/share/applications/
+cp /usr/share/citrusviewer/files/citrusviewer-link.desktop /usr/share/applications/
+ln -sf /usr/share/citrusviewer/citrusviewer /usr/bin/citrusviewer
 systemctl daemon-reload
-systemctl enable citrusremoteviewer
-systemctl start citrusremoteviewer
+systemctl enable citrusviewer
+systemctl start citrusviewer
 update-desktop-database
 
 %preun
 case "$1" in
   0)
     # for uninstall
-    systemctl stop citrusremoteviewer || true
-    systemctl disable citrusremoteviewer || true
-    rm /etc/systemd/system/citrusremoteviewer.service || true
+    systemctl stop citrusviewer || true
+    systemctl disable citrusviewer || true
+    rm /etc/systemd/system/citrusviewer.service || true
   ;;
   1)
     # for upgrade
@@ -82,17 +82,17 @@ esac
 case "$1" in
   0)
     # for uninstall
-    rm /usr/bin/citrusremoteviewer || true
-    rmdir /usr/lib/citrusremoteviewer || true
-    rmdir /usr/local/citrusremoteviewer || true
-    rmdir /usr/share/citrusremoteviewer || true
-    rm /usr/share/applications/citrusremoteviewer.desktop || true
-    rm /usr/share/applications/citrusremoteviewer-link.desktop || true
+    rm /usr/bin/citrusviewer || true
+    rmdir /usr/lib/citrusviewer || true
+    rmdir /usr/local/citrusviewer || true
+    rmdir /usr/share/citrusviewer || true
+    rm /usr/share/applications/citrusviewer.desktop || true
+    rm /usr/share/applications/citrusviewer-link.desktop || true
     update-desktop-database
   ;;
   1)
     # for upgrade
-    rmdir /usr/lib/citrusremoteviewer || true
-    rmdir /usr/local/citrusremoteviewer || true
+    rmdir /usr/lib/citrusviewer || true
+    rmdir /usr/local/citrusviewer || true
   ;;
 esac

@@ -5,23 +5,23 @@ set -e
 if [ "$1" = configure ]; then
 
 	INITSYS=$(ls -al /proc/1/exe | awk -F' ' '{print $NF}' | awk -F'/' '{print $NF}')
-	ln -f -s /usr/share/citrusremoteviewer/citrusremoteviewer /usr/bin/citrusremoteviewer
+	ln -f -s /usr/share/citrusviewer/citrusviewer /usr/bin/citrusviewer
 
 	if [ "systemd" == "$INITSYS" ]; then
 
-		if [ -e /etc/systemd/system/citrusremoteviewer.service ]; then
-			rm -f /etc/systemd/system/citrusremoteviewer.service /usr/lib/systemd/system/citrusremoteviewer.service /usr/lib/systemd/user/citrusremoteviewer.service >/dev/null  2>&1
+		if [ -e /etc/systemd/system/citrusviewer.service ]; then
+			rm -f /etc/systemd/system/citrusviewer.service /usr/lib/systemd/system/citrusviewer.service /usr/lib/systemd/user/citrusviewer.service >/dev/null  2>&1
 		fi
 		mkdir -p /usr/lib/systemd/system/
-		cp /usr/share/citrusremoteviewer/files/systemd/citrusremoteviewer.service /usr/lib/systemd/system/citrusremoteviewer.service
+		cp /usr/share/citrusviewer/files/systemd/citrusviewer.service /usr/lib/systemd/system/citrusviewer.service
 		# try fix error in Ubuntu 18.04
-		# Failed to reload citrusremoteviewer.service: Unit citrusremoteviewer.service is not loaded properly: Exec format error.
-		# /usr/lib/systemd/system/citrusremoteviewer.service:10: Executable path is not absolute: pkill -f "citrusremoteviewer --"
+		# Failed to reload citrusviewer.service: Unit citrusviewer.service is not loaded properly: Exec format error.
+		# /usr/lib/systemd/system/citrusviewer.service:10: Executable path is not absolute: pkill -f "citrusviewer --"
 		if [ -e /usr/bin/pkill ]; then
-			sed -i "s|pkill|/usr/bin/pkill|g" /usr/lib/systemd/system/citrusremoteviewer.service
+			sed -i "s|pkill|/usr/bin/pkill|g" /usr/lib/systemd/system/citrusviewer.service
 		fi
 		systemctl daemon-reload
-		systemctl enable citrusremoteviewer
-		systemctl start citrusremoteviewer
+		systemctl enable citrusviewer
+		systemctl start citrusviewer
 	fi
 fi

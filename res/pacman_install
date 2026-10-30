@@ -5,43 +5,43 @@
 # arg 1:  the new package version
 post_install() {
 	# do something here
-	cp /usr/share/citrusremoteviewer/files/citrusremoteviewer.service /etc/systemd/system/citrusremoteviewer.service
-	cp /usr/share/citrusremoteviewer/files/citrusremoteviewer.desktop /usr/share/applications/
-	cp /usr/share/citrusremoteviewer/files/citrusremoteviewer-link.desktop /usr/share/applications/
+	cp /usr/share/citrusviewer/files/citrusviewer.service /etc/systemd/system/citrusviewer.service
+	cp /usr/share/citrusviewer/files/citrusviewer.desktop /usr/share/applications/
+	cp /usr/share/citrusviewer/files/citrusviewer-link.desktop /usr/share/applications/
 	systemctl daemon-reload
-	systemctl enable citrusremoteviewer
-	systemctl start citrusremoteviewer
+	systemctl enable citrusviewer
+	systemctl start citrusviewer
 	update-desktop-database
 }
 
 # arg 1:  the new package version
 # arg 2:  the old package version
 pre_upgrade() {
-    systemctl stop citrusremoteviewer || true
+    systemctl stop citrusviewer || true
 }
 
 # arg 1:  the new package version
 # arg 2:  the old package version
 post_upgrade() {
-	cp /usr/share/citrusremoteviewer/files/citrusremoteviewer.service /etc/systemd/system/citrusremoteviewer.service
-	cp /usr/share/citrusremoteviewer/files/citrusremoteviewer.desktop /usr/share/applications/
-	cp /usr/share/citrusremoteviewer/files/citrusremoteviewer-link.desktop /usr/share/applications/
+	cp /usr/share/citrusviewer/files/citrusviewer.service /etc/systemd/system/citrusviewer.service
+	cp /usr/share/citrusviewer/files/citrusviewer.desktop /usr/share/applications/
+	cp /usr/share/citrusviewer/files/citrusviewer-link.desktop /usr/share/applications/
 	systemctl daemon-reload
-	systemctl enable citrusremoteviewer
-	systemctl start citrusremoteviewer
+	systemctl enable citrusviewer
+	systemctl start citrusviewer
 	update-desktop-database
 }
 
 # arg 1:  the old package version
 pre_remove() {
-	systemctl stop citrusremoteviewer || true
-	systemctl disable citrusremoteviewer || true
-	rm /etc/systemd/system/citrusremoteviewer.service || true
+	systemctl stop citrusviewer || true
+	systemctl disable citrusviewer || true
+	rm /etc/systemd/system/citrusviewer.service || true
 }
 
 # arg 1:  the old package version
 post_remove() {
-	rm /usr/share/applications/citrusremoteviewer.desktop || true
-	rm /usr/share/applications/citrusremoteviewer-link.desktop || true
+	rm /usr/share/applications/citrusviewer.desktop || true
+	rm /usr/share/applications/citrusviewer-link.desktop || true
 	update-desktop-database
 }

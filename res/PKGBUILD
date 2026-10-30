@@ -1,4 +1,4 @@
-pkgname=citrusremoteviewer
+pkgname=citrusviewer
 pkgver=1.5.1
 pkgrel=0
 epoch=
@@ -23,13 +23,13 @@ md5sums=() #generate with 'makepkg -g'
 
 package() {
   if [[ ${FLUTTER} ]]; then
-	  mkdir -p "${pkgdir}/usr/share/citrusremoteviewer" && cp -r ${HBB}/flutter/build/linux/x64/release/bundle/* -t "${pkgdir}/usr/share/citrusremoteviewer"
+	  mkdir -p "${pkgdir}/usr/share/citrusviewer" && cp -r ${HBB}/flutter/build/linux/x64/release/bundle/* -t "${pkgdir}/usr/share/citrusviewer"
   fi
   mkdir -p "${pkgdir}/usr/bin"
-  pushd ${pkgdir} && ln -s /usr/share/citrusremoteviewer/citrusremoteviewer usr/bin/citrusremoteviewer && popd
-  install -Dm 644 $HBB/res/citrusremoteviewer.service -t "${pkgdir}/usr/share/citrusremoteviewer/files"
-  install -Dm 644 $HBB/res/citrusremoteviewer.desktop -t "${pkgdir}/usr/share/citrusremoteviewer/files"
-  install -Dm 644 $HBB/res/citrusremoteviewer-link.desktop -t "${pkgdir}/usr/share/citrusremoteviewer/files"
-  install -Dm 644 $HBB/res/128x128@2x.png "${pkgdir}/usr/share/icons/hicolor/256x256/apps/citrusremoteviewer.png"
-  install -Dm 644 $HBB/res/scalable.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/citrusremoteviewer.svg"
+  pushd ${pkgdir} && ln -s /usr/share/citrusviewer/citrusviewer usr/bin/citrusviewer && popd
+  install -Dm 644 $HBB/res/citrusviewer.service -t "${pkgdir}/usr/share/citrusviewer/files"
+  install -Dm 644 $HBB/res/citrusviewer.desktop -t "${pkgdir}/usr/share/citrusviewer/files"
+  install -Dm 644 $HBB/res/citrusviewer-link.desktop -t "${pkgdir}/usr/share/citrusviewer/files"
+  install -Dm 644 $HBB/res/128x128@2x.png "${pkgdir}/usr/share/icons/hicolor/256x256/apps/citrusviewer.png"
+  install -Dm 644 $HBB/res/scalable.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/citrusviewer.svg"
 }

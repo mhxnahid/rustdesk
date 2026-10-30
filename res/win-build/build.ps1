@@ -1,5 +1,5 @@
 <#
-Builds the Citrus Remote Viewer Windows x64 client, mirroring the build-for-windows-flutter
+Builds the Citrus Viewer Windows x64 client, mirroring the build-for-windows-flutter
 CI job. Run setup.ps1 once first.
 
   -Fast         No LTO and parallel codegen: much quicker rebuilds, for testing only.
@@ -21,7 +21,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'common.ps1')
-if (-not $OutDir) { $OutDir = Join-Path $RepoRoot 'target\dist\CitrusRemoteViewer-win64' }
+if (-not $OutDir) { $OutDir = Join-Path $RepoRoot 'target\dist\CitrusViewer-win64' }
 
 function Add-Drivers([string]$Dest) {
     Write-Step 'Virtual display driver'
@@ -71,7 +71,7 @@ function New-SingleExe([string]$Folder, [string]$Python) {
     & $Python -m pip install --quiet -r (Join-Path $portable 'requirements.txt')
     Assert-LastExit 'pip install'
     Set-Location $portable
-    & $Python .\generate.py -f $Folder -o . -e (Join-Path $Folder 'citrusremoteviewer.exe')
+    & $Python .\generate.py -f $Folder -o . -e (Join-Path $Folder 'citrusviewer.exe')
     Assert-LastExit 'generate.py'
     Set-Location $RepoRoot
     $exe = "$Folder.exe"
@@ -141,7 +141,7 @@ try {
         Write-Host "  zip: $zipPath"
     }
 
-    Write-Step ('Done in {0:hh\:mm\:ss}. Run {1}' -f ((Get-Date) - $started), (Join-Path $OutDir 'citrusremoteviewer.exe'))
+    Write-Step ('Done in {0:hh\:mm\:ss}. Run {1}' -f ((Get-Date) - $started), (Join-Path $OutDir 'citrusviewer.exe'))
 } finally {
     Set-Location $origLocation
 }

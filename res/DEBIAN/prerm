@@ -5,21 +5,21 @@ set -e
 case $1 in
     remove|upgrade)
 		INITSYS=$(ls -al /proc/1/exe | awk -F' ' '{print $NF}' | awk -F'/' '{print $NF}')
-		rm -f /usr/bin/citrusremoteviewer
+		rm -f /usr/bin/citrusviewer
 		
 		if [ "systemd" == "${INITSYS}" ]; then
 
-			systemctl stop citrusremoteviewer || true
-			systemctl disable citrusremoteviewer || true
-			rm /etc/systemd/system/citrusremoteviewer.service /usr/lib/systemd/system/citrusremoteviewer.service || true
+			systemctl stop citrusviewer || true
+			systemctl disable citrusviewer || true
+			rm /etc/systemd/system/citrusviewer.service /usr/lib/systemd/system/citrusviewer.service || true
 			
 			# workaround temp dev build between 1.1.9 and 1.2.0
-			serverUser=$(ps -ef | grep -E 'citrusremoteviewer +--server' | grep -v 'sudo ' | awk '{print $1}' | head -1)
+			serverUser=$(ps -ef | grep -E 'citrusviewer +--server' | grep -v 'sudo ' | awk '{print $1}' | head -1)
 			if [ "$serverUser" != "" ] && [ "$serverUser" != "root" ]
 			then
-				systemctl --machine=${serverUser}@.host --user stop citrusremoteviewer >/dev/null 2>&1 || true
+				systemctl --machine=${serverUser}@.host --user stop citrusviewer >/dev/null 2>&1 || true
 			fi
-			rm /usr/lib/systemd/user/citrusremoteviewer.service >/dev/null 2>&1 || true
+			rm /usr/lib/systemd/user/citrusviewer.service >/dev/null 2>&1 || true
 		fi
         ;;
 esac
